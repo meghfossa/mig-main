@@ -1,0 +1,59 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/golang:1.16
+  environment:
+    TEST_RESULTS: /tmp/test-results
+    ARTIFACTS: /tmp/artifacts
+
+jobs:
+  unit-test:
+    <<: *defaults
+    steps:
+      - run: echo "from unit tests"
+  integration-test:
+    <<: *defaults
+    steps:
+      - run: echo "from integration test"
+  end-to-end-test:
+    <<: *defaults
+    steps:
+      - run: echo "from e2e test"
+  installer-test:
+    <<: *defaults
+    steps:
+      - run: echo "from installer-test"
+  release:
+    <<: *defaults
+    steps:
+      - run:
+          name: Tag branch for release
+          command: |
+            [[ $CLI_RELEASE_TAG == v* ]]
+            git tag $CLI_RELEASE_TAG
+workflows:
+  version: 2
+  when:
+    or:
+      - equal: [ main, << pipeline.git.branch >> ]
+      - matches: { pattern: "^v1/.*", value: << pipeline.git.branch >> }
+      - matches: { pattern: "^v1.*", value: << pipeline.git.tag >> }
+  tests:
+    jobs:
+      - unit-test
+      - integration-test
+      - end-to-end-test
+      - installer-test
+      - approve-release:
+          type: approval
+          requires:
+            - unit-test
+            - integration-test
+            - installer-test
+          filters:
+            branches:
+              only: master
+      - release:
+          requires:
+            - approve-release
