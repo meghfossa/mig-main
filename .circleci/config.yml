@@ -52,7 +52,7 @@ workflows:
             - installer-test
           filters:
             branches:
-              only: master
+              only: main
       - release:
           requires:
             - approve-release
