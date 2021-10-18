@@ -34,26 +34,27 @@ jobs:
             git tag $CLI_RELEASE_TAG
 workflows:
   version: 2
-  when:
-    or:
-      - equal: [ main, << pipeline.git.branch >> ]
-      - matches: { pattern: "^v1/.*", value: << pipeline.git.branch >> }
-      - matches: { pattern: "^v1.*", value: << pipeline.git.tag >> }
-  tests:
-    jobs:
-      - unit-test
-      - integration-test
-      - end-to-end-test
-      - installer-test
-      - approve-release:
-          type: approval
-          requires:
-            - unit-test
-            - integration-test
-            - installer-test
-          filters:
-            branches:
-              only: master
-      - release:
-          requires:
-            - approve-release
+  cli-v1-workflow:
+    when:
+      or:
+        - equal: [ main, << pipeline.git.branch >> ]
+        - matches: { pattern: "^v1/.*", value: << pipeline.git.branch >> }
+        - matches: { pattern: "^v1.*", value: << pipeline.git.tag >> }
+    tests:
+      jobs:
+        - unit-test
+        - integration-test
+        - end-to-end-test
+        - installer-test
+        - approve-release:
+            type: approval
+            requires:
+              - unit-test
+              - integration-test
+              - installer-test
+            filters:
+              branches:
+                only: master
+        - release:
+            requires:
+              - approve-release
