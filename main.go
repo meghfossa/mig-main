@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	fmt.Println("from main repo! with v1.1.2-alpha.1")
-	fmt.Println("Current local time:")
+	fmt.Println("from main repo!")
+	fmt.Println("Current time:")
 	now := time.Now()
 	fmt.Println(now)
 }
