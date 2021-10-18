@@ -51,7 +51,7 @@ execute() {
   srcdir="${tmpdir}"
   (cd "${tmpdir}" && untar "${TARBALL}")
   install -d -m 775 "${BINDIR}" 2> /dev/null || install -d "${BINDIR}"
-  for binexe in "fossa" ; do
+  for binexe in "mig-main" ; do
     if [ "$OS" = "windows" ]; then
       binexe="${binexe}.exe"
     fi
