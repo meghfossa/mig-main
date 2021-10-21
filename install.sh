@@ -97,7 +97,7 @@ tag_to_version() {
   VERSION=${TAG#v}
 
   # Ensure script only installs fossa-cli less than v2.0.0
-  if [[ "$TAG" =~ ^v1 ]]; then
+  if [ "$TAG" =~ ^v1 ]; then
     log_debug "${TAG} is compatible with this install script!"
   else
     log_crit "unable to find '${TAG}' - use 'latest' or see https://github.com/${PREFIX}/releases for details"
