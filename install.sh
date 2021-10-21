@@ -47,7 +47,7 @@ http_copy() {
 }
 
 preffered_install_script_url="https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh"
-preffered_install_script_location=$(http_copy "$compatible_install_script_url" "Accept:raw")
+preffered_install_script_location=$(http_copy "$preffered_install_script_url" "Accept:raw")
 
 . "$preffered_install_script_location"
 rm -f "${preffered_install_script_location}"
