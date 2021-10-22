@@ -2,19 +2,19 @@ name: installation-script-test
 on: push
 
 jobs:
-  install-script-test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [windows-latest]
-
+  test-install-script-windows:
+    runs-on: 'windows-latest'
     steps:
       - uses: actions/checkout@v2
-
-      - name: install script performs installation in linux and macOs
+      - name: install-v1 script does not install v2 or greater version
         shell: pwsh
         run: |
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\install.ps1
-          fossa.exe --version
+          .\install-v1.ps1
+          $cliVersionCmdOutput = cmd /c 'C:\ProgramData\fossa-cli\fossa.exe' '--version'
+          Write-Output $cliVersionCmdOutput
+          $cliVersionMajor = $cliVersionCmdOutput.Split(" ")[2][0]
+          if (-Not $cliVersionMajor -eq "1") {
+            Write-Output "Got: $cliVersionMajor instead!"
+            exit 1
+          }
