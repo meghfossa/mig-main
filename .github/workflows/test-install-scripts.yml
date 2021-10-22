@@ -7,15 +7,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [windows-latest]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: install script performs installation in linux and macOs
-        if: startsWith(matrix.os,'ubuntu') || startsWith(matrix.os,'macOS') 
-        shell: bash
+        shell: pwsh
         run: |
-          ./install.sh -b .
-          ./fossa --version
-          rm fossa
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          .\install.ps1
+          fossa.exe --version
