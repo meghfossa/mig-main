@@ -7,9 +7,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test windows installer in CI
+        continue-on-error: true
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force;
           Invoke-Expression ".\$GITHUB_WORKSPACE\install.ps1"
+      
+      - name: Run CI 
+        run: 
+          Get-ChildItem -Path C:\Users\runneradmin\AppData\Local\fossa-cli\
 
   # test-install-script-windows:
   #   runs-on: 'windows-latest'
