@@ -2,6 +2,15 @@ name: installation-script-test
 on: push
 
 jobs:
+  test-install-script-windows-latest:
+    runs-on: 'windows-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test windows installer in CI
+        shell: pwsh
+        run: |
+          Invoke-Expression -Command "install.ps1"
+
   test-install-script-windows:
     runs-on: 'windows-latest'
     steps:
@@ -18,3 +27,5 @@ jobs:
             Write-Output "Got: $cliVersionMajor instead!"
             exit 1
           }
+
+          Test windows installer in CI
