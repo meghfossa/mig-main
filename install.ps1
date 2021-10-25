@@ -76,6 +76,9 @@ Write-Host "The fossa-cli installation directory has been added to the PATH for 
 Write-Host "Installed fossa at: $fossa"
 Write-Host "Get started by running: fossa.exe --help"
 
+Get-ChildItem -Path $extractDir
+
 Write-Host "Running fossa.exe --version"
+
 # Doesn't run without '&', seems to tell PS to treat the output as a command
 & $fossa --version
