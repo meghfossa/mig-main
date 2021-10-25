@@ -8,24 +8,24 @@ jobs:
       - uses: actions/checkout@v2
       - name: Test windows installer in CI
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          Set-ExecutionPolicy Bypass -Scope Process -Force;
           Invoke-Expression ".\$GITHUB_WORKSPACE\install.ps1"
 
-  test-install-script-windows:
-    runs-on: 'windows-latest'
-    steps:
-      - uses: actions/checkout@v2
-      - name: install-v1 script does not install v2 or greater version
-        shell: pwsh
-        run: |
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\install-v1.ps1
-          $cliVersionCmdOutput = cmd /c 'C:\ProgramData\fossa-cli\fossa.exe' '--version'
-          Write-Output $cliVersionCmdOutput
-          $cliVersionMajor = $cliVersionCmdOutput.Split(" ")[2][0]
-          if (-Not $cliVersionMajor -eq "1") {
-            Write-Output "Got: $cliVersionMajor instead!"
-            exit 1
-          }
+  # test-install-script-windows:
+  #   runs-on: 'windows-latest'
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: install-v1 script does not install v2 or greater version
+  #       shell: pwsh
+  #       run: |
+  #         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+  #         .\install-v1.ps1
+  #         $cliVersionCmdOutput = cmd /c 'C:\ProgramData\fossa-cli\fossa.exe' '--version'
+  #         Write-Output $cliVersionCmdOutput
+  #         $cliVersionMajor = $cliVersionCmdOutput.Split(" ")[2][0]
+  #         if (-Not $cliVersionMajor -eq "1") {
+  #           Write-Output "Got: $cliVersionMajor instead!"
+  #           exit 1
+  #         }
 
-          Test windows installer in CI
+  #         Test windows installer in CI
