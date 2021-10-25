@@ -9,7 +9,7 @@ jobs:
       - name: Test windows installer in CI
         shell: pwsh
         run: |
-          Invoke-Expression -Command "install.ps1"
+          Invoke-Expression -Command "./install.ps1"
 
   test-install-script-windows:
     runs-on: 'windows-latest'
