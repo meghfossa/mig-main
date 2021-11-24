@@ -1,20 +1,13 @@
 name: installation-script-test
 on: push
-
 jobs:
-  test-install-script-windows-latest:
-    runs-on: 'windows-latest'
+  fossa-scan:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Test windows installer in CI
-        continue-on-error: true
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force;
-          Invoke-Expression ".\$GITHUB_WORKSPACE\install.ps1"
-      
-      - name: Run CI 
-        run: 
-          Get-ChildItem -Path C:\Users\runneradmin\AppData\Local\fossa-cli\
+      - uses: fossas/fossa-action@main # Use a specific version if locking is preferred
+        with:
+          api-key: 'sss'
 
   # test-install-script-windows:
   #   runs-on: 'windows-latest'
